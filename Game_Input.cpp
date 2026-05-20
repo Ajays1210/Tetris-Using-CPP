@@ -51,7 +51,7 @@ void Game::ProcessInput() {
                 score += static_cast<long long>(drop_distance) * 2LL;
                 break;
             }
-                case '8': case 'w': case 'W':
+            case '8': case 'w': case 'W':
                 TryRotationWithWallKicks(); // Spin the piece.
                 break;
             case '5':
