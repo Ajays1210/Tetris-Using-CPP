@@ -22,7 +22,6 @@ void Game::SetupConsole() {
     SetConsoleCursorInfo(consoleHandle, &cursorInfo);
 
     // Wipe any old text and set the window title.
-    system("cls");
     SetConsoleTitleA("Tetris Game (C++)");
 }
 
@@ -64,6 +63,7 @@ void Game::ResetBoardWithWalls() {
 Game::Game() {
     LoadHighScore();
     SetupConsole();
+    system("cls"); // <-- Add this here! This performs your ONE-TIME screen wipe on boot.
     InitializeTetrominos();
     ResetBoardWithWalls();
 }
