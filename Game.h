@@ -74,6 +74,7 @@ private:
     long long score = 0; // Upgraded to 64-bit to prevent overflow
     int level = 1;
     int lines_cleared = 0;
+    static const int LINES_PER_LEVEL = 10; // Number of cleared lines required to level up
 
     // --- Timing ---
     // This tracks the last time the piece moved down due to gravity.
