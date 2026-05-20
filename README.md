@@ -1,6 +1,7 @@
 Console Tetris (C++)
 
 A fully functional, high-performance Tetris clone built from scratch using C++ and the Windows API. This project demonstrates advanced console manipulation, state-based game logic, and object-oriented programming (OOP).
+> ⚠️ **Platform Requirement:** This project uses native Windows API headers (`<windows.h>`, `<conio.h>`) for low-latency, flicker-free rendering and non-blocking input. It is compatible **only with Windows environments** and cannot be natively compiled or executed on macOS or Linux.
 
 Key Features:
 - Flicker-Free Rendering: Optimized visual engine using SetConsoleCursorPosition to avoid the "blinking" effect of system("cls").
@@ -43,7 +44,9 @@ If you want to compile the source code yourself:
 
 - Clone the repository.
 
-- Open the project in CLion or any C++ IDE.
+- Open the project in CLion or any C++ IDE on a Windows machine.
+
+- Ensure your toolchain uses a Windows-compatible compiler (such as MinGW-w64, MSYS2, or MSVC).
 
 - Use the provided CMakeLists.txt to build.
 
