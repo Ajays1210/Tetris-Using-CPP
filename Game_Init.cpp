@@ -30,12 +30,13 @@ void Game::SetupConsole() {
 // This is where we define the shapes of the 7 classic Tetris pieces.
 void Game::InitializeTetrominos() {
     // Pick the first piece that starts falling.
-    int initial_index = rand() % TETROMINO_TEMPLATES.size();
+    std::uniform_int_distribution<int> dist(0, TETROMINO_TEMPLATES.size() - 1);
+    int initial_index = dist(rng);
     current_piece.shape = TETROMINO_TEMPLATES[initial_index];
     current_piece.id = initial_index + 1;
 
     // Pick the "Next Piece" shown in the preview window.
-    int next_index = rand() % TETROMINO_TEMPLATES.size();
+    int next_index = dist(rng);
     next_piece.shape = TETROMINO_TEMPLATES[next_index];
     next_piece.id = next_index + 1;
 

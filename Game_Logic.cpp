@@ -112,7 +112,8 @@ void Game::LockPiece() {
 
     // 4. THE REFILL: ONLY pick a new piece for the "Next" slot.
     // We do NOT call InitializeTetrominos() here because it would overwrite current_piece.
-    int next_index = rand() % static_cast<int>(TETROMINO_TEMPLATES.size());
+    std::uniform_int_distribution<int> dist(0, static_cast<int>(TETROMINO_TEMPLATES.size()) - 1);
+    int next_index = dist(rng);
     next_piece.shape = TETROMINO_TEMPLATES[next_index];
     next_piece.id = next_index + 1;
 
