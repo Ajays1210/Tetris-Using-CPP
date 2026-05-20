@@ -7,6 +7,7 @@
 #include <chrono>
 #include <fstream>
 #include <cstdlib>
+#include <random>
 #include <ctime>
 #include <algorithm>
 
@@ -52,6 +53,7 @@ public:
 
 private:
     // --- Game World Data ---
+    std::mt19937 rng{std::random_device{}()}; // High-quality engine initialized with a hardware random seed
     std::vector<int> board;      // The 2D grid stored as a 1D list for speed.
     Piece current_piece;         // The piece the player is controlling.
     Position current_pos;        // The current (x, y) location of that piece.
@@ -69,7 +71,7 @@ private:
     const int LINE_CLEAR_DELAY_MS = 300; // How long the clear animation lasts.
 
     // --- Scoring & Leveling ---
-    int score = 0;
+    long long score = 0; // Upgraded to 64-bit to prevent overflow
     int level = 1;
     int lines_cleared = 0;
 
@@ -88,7 +90,7 @@ private:
     void ShiftLinesDown();
 
     // --- High-Score (Game_Logic.cpp) ---
-    int high_score = 0;              // To store the record
+    long long high_score = 0;        // Upgraded to 64-bit to match score tracking
     const std::string HIGH_SCORE_FILE = "highscore.txt";
 
     void LoadHighScore();            // Read from disk

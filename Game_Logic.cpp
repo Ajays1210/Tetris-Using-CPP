@@ -153,7 +153,7 @@ void Game::ShiftLinesDown() {
     int count = lines_to_clear.size();
 
     lines_cleared += count;
-    score += 100 * count * level;
+    score += 100LL * count * level;
     UpdateHighScore();
     level = std::min((lines_cleared / 10) + 1, 20);         // Caps the level tracking at a maximum milestone of Level 20
 
