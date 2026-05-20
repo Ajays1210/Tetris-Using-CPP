@@ -155,7 +155,7 @@ void Game::ShiftLinesDown() {
     lines_cleared += count;
     score += 100 * count * level;
     UpdateHighScore();
-    level = (lines_cleared / 10) + 1;
+    level = std::min((lines_cleared / 10) + 1, 20);         // Caps the level tracking at a maximum milestone of Level 20
 
     int dropDistance = 0;
     for (int y = GAME_BOARD_HEIGHT - 2; y >= 1; --y) {

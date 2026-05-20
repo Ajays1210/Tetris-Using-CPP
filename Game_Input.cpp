@@ -60,7 +60,8 @@ void Game::ProcessInput() {
 // This calculates how fast the piece should fall.
 // As your level goes up, the time between drops gets smaller (faster).
 int Game::GetFallSpeedMS() const {
-    int speed = 500 * std::pow(0.8, level - 1);
+    // Calculates falling delay based on the level (capped at 20)
+    int speed = static_cast<int>(500 * std::pow(0.8, level - 1));
 
     // We set a "speed limit" (50ms) so the game doesn't become impossible.
     return (speed < 50) ? 50 : speed;
