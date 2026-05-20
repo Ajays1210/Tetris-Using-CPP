@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <array>
 #include <windows.h>
 
 // This function checks if a piece is allowed to be at a certain spot.
@@ -57,29 +58,29 @@ bool Game::TryRotationWithWallKicks() {
 
     // Corrected offsets: We try the original spot, then 1 block left, 1 block right,
     // 2 blocks left, and 2 blocks right. This covers both the left and right walls.
-    const int standard_offsets[6][2] = {
-        {0, 0},  // Try original spot
-        {-1, 0}, // Nudge left (if hitting right wall)
-        {1, 0},  // Nudge right (if hitting left wall)
-        {-2, 0}, // Big nudge left
-        {2, 0}   // Big nudge right
-    };
+    const std::array<Position, 5> standard_offsets = {{
+        {0, 0},   // Test 1: Try original spot
+        {-1, 0},  // Test 2: Nudge left 1 unit
+        {1, 0},   // Test 3: Nudge right 1 unit
+        {-2, 0},  // Test 4: Nudge left 2 units
+        {2, 0}    // Test 5: Nudge right 2 units
+    }};
 
     // The 'I' piece is very long, so it needs bigger kicks to clear walls.
-    const int i_offsets[6][2] = {
-        {0, 0},
-        {-2, 0},
-        {2, 0},
-        {-1, 0},
-        {1, 0}
-    };
+    const std::array<Position, 5> i_offsets = {{
+        {0, 0},   // Test 1: Try original spot
+        {-2, 0},  // Test 2: Nudge left 2 units
+        {2, 0},   // Test 3: Nudge right 2 units
+        {-1, 0},  // Test 4: Nudge left 1 unit
+        {1, 0}    // Test 5: Nudge right 1 unit
+    }};
 
-    const int (*offsets)[2] = isIPiece ? i_offsets : standard_offsets;
+    const auto& offsets = isIPiece ? i_offsets : standard_offsets;
 
     // Loop through our "nudge" options to see if any spot is empty.
-    for (int i = 0; i < 5; ++i) {
-        int testX = current_pos.x + offsets[i][0];
-        int testY = current_pos.y + offsets[i][1];
+    for (const auto& offset : offsets) {
+        int testX = current_pos.x + offset.x;
+        int testY = current_pos.y + offset.y;
 
         if (!CheckCollision(rotatedShape, testX, testY)) {
             // Success! We found a spot that works.
