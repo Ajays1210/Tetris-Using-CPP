@@ -10,6 +10,7 @@
 #include <random>
 #include <ctime>
 #include <algorithm>
+#include <cstdint>
 
 // Using a vector of strings to represent the 4x4 grid of a piece.
 // 'X' is a solid block, and '.' is empty space.
@@ -30,6 +31,9 @@ const std::vector<ShapeMatrix> TETROMINO_TEMPLATES = {
 // These constants define the size of our game world.
 const int LOGICAL_BOARD_WIDTH = 12; // 10 columns for play + 2 for side walls.
 const int GAME_BOARD_HEIGHT = 22;   // 20 rows for play + 1 top wall + 1 bottom wall.
+
+constexpr int WALL_VALUE = 9;
+constexpr int EMPTY_VALUE = 0;
 
 // A simple structure to hold a piece's shape and its color/type ID.
 struct Piece {
@@ -71,7 +75,7 @@ private:
     const int LINE_CLEAR_DELAY_MS = 300; // How long the clear animation lasts.
 
     // --- Scoring & Leveling ---
-    long long score = 0; // Upgraded to 64-bit to prevent overflow
+    int64_t score = 0; // Upgraded to 64-bit to prevent overflow
     int level = 1;
     int lines_cleared = 0;
     static const int LINES_PER_LEVEL = 10; // Number of cleared lines required to level up
@@ -91,7 +95,7 @@ private:
     void ShiftLinesDown();
 
     // --- High-Score (Game_Logic.cpp) ---
-    long long high_score = 0;        // Upgraded to 64-bit to match score tracking
+    int64_t high_score = 0;        // Upgraded to 64-bit to match score tracking
     const std::string HIGH_SCORE_FILE = "highscore.txt";
 
     void LoadHighScore();            // Read from disk

@@ -1,11 +1,6 @@
 #include "Game.h"
 
 int main() {
-    // This line makes sure the game is random every time you play.
-    // Without it, the "random" pieces would fall in the exact same order
-    // every time you opened the game.
-    // srand(static_cast<unsigned int>(time(0)));
-
     // Here we create the actual Tetris game object.
     // This sets up the board, the pieces, and the console window.
     Game tetris_game;

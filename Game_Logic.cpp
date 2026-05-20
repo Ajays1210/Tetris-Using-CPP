@@ -18,7 +18,7 @@ bool Game::CheckCollision(const ShapeMatrix& shape, int nextX, int nextY) const 
                 }
 
                 // Check if that spot on the board is already taken by a wall or another block.
-                if (board[boardY * LOGICAL_BOARD_WIDTH + boardX] != 0) {
+                if (board[boardY * LOGICAL_BOARD_WIDTH + boardX] != EMPTY_VALUE) {
                     return true;
                 }
             }
@@ -129,7 +129,7 @@ void Game::ClearLines() {
     for (int y = GAME_BOARD_HEIGHT - 2; y >= 1; --y) {
         bool is_full = true;
         for (int x = 1; x < LOGICAL_BOARD_WIDTH - 1; ++x) {
-            if (board[y * LOGICAL_BOARD_WIDTH + x] == 0) {
+            if (board[y * LOGICAL_BOARD_WIDTH + x] == EMPTY_VALUE) {
                 is_full = false;
                 break;
             }
@@ -158,7 +158,7 @@ void Game::ShiftLinesDown() {
 
     // Protect against indexing out of bounds, then apply the disproportionate reward multiplier
     if (count >= 1 && count <= 4) {
-        score += static_cast<long long>(LINE_SCORES[count]) * level;
+        score += static_cast<int64_t>(LINE_SCORES[count]) * level;
     }
     UpdateHighScore();
     // Use the named constant here while safely maintaining the level 20 cap
@@ -171,7 +171,7 @@ void Game::ShiftLinesDown() {
         } else if (dropDistance > 0) {
             for (int x = 1; x < LOGICAL_BOARD_WIDTH - 1; ++x) {
                 board[(y + dropDistance) * LOGICAL_BOARD_WIDTH + x] = board[y * LOGICAL_BOARD_WIDTH + x];
-                board[y * LOGICAL_BOARD_WIDTH + x] = 0;
+                board[y * LOGICAL_BOARD_WIDTH + x] = EMPTY_VALUE;
             }
         }
     }

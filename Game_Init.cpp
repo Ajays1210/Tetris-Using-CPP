@@ -46,14 +46,14 @@ void Game::InitializeTetrominos() {
 
 void Game::ResetBoardWithWalls() {
     // First, make the whole board empty (0).
-    board.assign(LOGICAL_BOARD_WIDTH * GAME_BOARD_HEIGHT, 0);
+    board.assign(LOGICAL_BOARD_WIDTH * GAME_BOARD_HEIGHT, EMPTY_VALUE);
 
     // Now, place the '9's to create the frame.
     for (int y = 0; y < GAME_BOARD_HEIGHT; ++y) {
         for (int x = 0; x < LOGICAL_BOARD_WIDTH; ++x) {
             // Logic: If it's the first/last row OR first/last column, it's a wall.
             if (y == 0 || y == GAME_BOARD_HEIGHT - 1 || x == 0 || x == LOGICAL_BOARD_WIDTH - 1) {
-                board[y * LOGICAL_BOARD_WIDTH + x] = 9;
+                board[y * LOGICAL_BOARD_WIDTH + x] = WALL_VALUE;
             }
         }
     }

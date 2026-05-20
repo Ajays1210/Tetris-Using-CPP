@@ -138,7 +138,7 @@ void Game::DrawBoard() {
                     displayStr = ((elapsed / 100) % 2 == 0) ? "##" : " .";
                 }
                 // Draw walls and bottom edges dynamically using the board data values
-                else if (cellValue == 9) {
+                else if (cellValue == WALL_VALUE) {
                     if (y == 0) {
                         displayStr = "  "; // Keep top invisible so pieces can spawn.
                     }
@@ -155,7 +155,7 @@ void Game::DrawBoard() {
                     }
                 }
                 // Draw an empty spot.
-                else if (cellValue == 0) {
+                else if (cellValue == EMPTY_VALUE) {
                     displayStr = " .";
                 }
                 // Draw a locked block that landed previously.

@@ -48,7 +48,7 @@ void Game::ProcessInput() {
                 LockPiece(); // Stick it to the board immediately.
 
                 // +2 points per cell for hard drop
-                score += static_cast<long long>(drop_distance) * 2LL;
+                score += static_cast<int64_t>(drop_distance) * 2LL;
                 break;
             }
             case '8': case 'w': case 'W':
