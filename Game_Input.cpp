@@ -32,16 +32,26 @@ void Game::ProcessInput() {
                 MovePiece(1, 0);  // Move Right.
                 break;
             case '4': case 's': case 'S':
-                MovePiece(0, 1);  // Move Down (Soft Drop).
+                // Only award the soft drop point if the path below is clear
+                if (!CheckCollision(current_piece.shape, current_pos.x, current_pos.y + 1)) {
+                    MovePiece(0, 1);  // Move Down (Soft Drop).
+                    score += 1LL; // +1 point per cell for soft drop
+                }
                 break;
-            case ' ':
+            case ' ': {
                 // Hard Drop: Teleport the piece to the bottom instantly.
+                int drop_distance = 0;
                 while (!CheckCollision(current_piece.shape, current_pos.x, current_pos.y + 1)) {
                     current_pos.y += 1;
+                    drop_distance++;
                 }
                 LockPiece(); // Stick it to the board immediately.
+
+                // +2 points per cell for hard drop
+                score += static_cast<long long>(drop_distance) * 2LL;
                 break;
-            case '8': case 'w': case 'W':
+            }
+                case '8': case 'w': case 'W':
                 TryRotationWithWallKicks(); // Spin the piece.
                 break;
             case '5':

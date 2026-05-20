@@ -153,7 +153,13 @@ void Game::ShiftLinesDown() {
     int count = lines_to_clear.size();
 
     lines_cleared += count;
-    score += 100LL * count * level;
+    // Official Tetris Guideline scoring progression array (0, Single, Double, Triple, Tetris)
+    static const int LINE_SCORES[] = {0, 100, 300, 500, 800};
+
+    // Protect against indexing out of bounds, then apply the disproportionate reward multiplier
+    if (count >= 1 && count <= 4) {
+        score += static_cast<long long>(LINE_SCORES[count]) * level;
+    }
     UpdateHighScore();
     level = std::min((lines_cleared / 10) + 1, 20);         // Caps the level tracking at a maximum milestone of Level 20
 
