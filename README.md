@@ -1,53 +1,73 @@
-Console Tetris (C++)
+# Console Tetris (C++)
 
-A fully functional, high-performance Tetris clone built from scratch using C++ and the Windows API. This project demonstrates advanced console manipulation, state-based game logic, and object-oriented programming (OOP).
-> ⚠️ **Platform Requirement:** This project uses native Windows API headers (`<windows.h>`, `<conio.h>`) for low-latency, flicker-free rendering and non-blocking input. It is compatible **only with Windows environments** and cannot be natively compiled or executed on macOS or Linux.
+A Tetris clone for the Windows console, written in C++17.
 
-Key Features:
-- Flicker-Free Rendering: Optimized visual engine using SetConsoleCursorPosition to avoid the "blinking" effect of system("cls").
+> **Windows only.** The game uses the Windows console API (`<windows.h>`, `<conio.h>`) for flicker-free drawing and non-blocking key input. It does not build on macOS or Linux.
 
-- Super Rotation System (SRS): Custom-built "Wall Kick" logic that allows pieces to rotate even when pressed against walls or the floor.
+## Features
 
-- Persistent High Scores: Automatically saves and loads your best performance from a local text file.
+- Flicker-free drawing: the cursor is moved to each spot instead of clearing the screen every frame.
+- Wall kicks: pieces can rotate even when pressed against a wall.
+- Saved high score, stored in `highscore.txt`.
+- Non-blocking keyboard input for real-time play.
+- Levels: the pieces fall faster as you clear more lines.
 
-- Responsive Input: Utilizes non-blocking keyboard input for smooth, real-time gameplay.
+## Controls
 
-- Dynamic Difficulty: Leveling system that increases the gravity speed as you clear more lines.
+| Key     | Action                    |
+| ------- | ------------------------- |
+| A / 7   | Move left                 |
+| D / 9   | Move right                |
+| W / 8   | Rotate                    |
+| S / 4   | Soft drop                 |
+| Space   | Hard drop                 |
+| 0       | Pause / resume            |
+| 5       | Reset game                |
+| 1       | Show / hide next piece    |
 
-How to Play:
-- Download the Tetris.exe from the Releases section.
+## Build
 
-- Run the executable in a Windows terminal.
+You need a Windows machine with a C++17 compiler (MSVC, MinGW-w64 or MSYS2) and CMake.
 
-Controls:
+```
+cmake -S . -B build
+cmake --build build
+```
 
-| Key | Action |
-| --- | --- |
-| A / 7 | Move Left |
-| D / 9 | Move Right |
-| W / 8 | Rotate Piece |
-| S / 4 | Soft Drop (Speed up) |
-| SPACE | Hard Drop (Instant) |
-| 0 | Pause / Resume |
-| 5 | Reset Game |
-| 1 | Toggle Next Piece Preview |
+The program is `build/Tetris.exe` (or `build/Debug/Tetris.exe` with Visual Studio).
 
-Technical Implementation:
-- Separation of Concerns: The project is modularized into dedicated files for Logic, Input, Rendering, and Initialization.
+## Project layout
 
-- Collision Detection: Matrix-based collision checking to ensure pixel-perfect (or rather, character-perfect) movement.
+```
+src/
+  main.cpp                 Starts the application.
+  app/
+    Application.*          Main loop: read keys -> update game -> draw.
+  core/                    Game rules. No drawing, no keyboard, no Windows code.
+    Constants.h            Board size, speeds, scores.
+    Command.h              The list of actions a player can do.
+    Piece.*                Piece shapes, random piece, rotation.
+    Board.*                The grid: collisions, landed blocks, full rows.
+    Game.*                 Moving, locking, line clearing, score, levels.
+  storage/
+    HighScoreStore.*       Loads and saves the high score file.
+  ui/
+    Renderer.*             Draws the board, stats and overlays.
+  platform/                The only code that touches Windows.
+    Console.*              Cursor, title, screen clearing, sleep.
+    Keyboard.*             Turns key presses into commands.
+```
 
-- Delta Timing: Gravity is handled using std::chrono to ensure consistent speed regardless of CPU performance.
+Each part only depends on the ones below it:
+`app` -> `ui`, `core`, `platform` and `ui` -> `core`, `platform`. `core` knows nothing about `ui` or `platform`.
 
-How to Build:
-If you want to compile the source code yourself:
+## Where do I change...?
 
-- Clone the repository.
-
-- Open the project in CLion or any C++ IDE on a Windows machine.
-
-- Ensure your toolchain uses a Windows-compatible compiler (such as MinGW-w64, MSYS2, or MSVC).
-
-- Use the provided CMakeLists.txt to build.
-
-- Or use the terminal: g++ *.cpp -o Tetris.exe
+| I want to change...             | Look in                      |
+| ------------------------------- | ---------------------------- |
+| Key bindings                    | `src/platform/Keyboard.cpp`  |
+| Board size, speed, scoring      | `src/core/Constants.h`       |
+| Piece shapes                    | `src/core/Piece.cpp`         |
+| Game rules                      | `src/core/Game.cpp`          |
+| How things look on screen       | `src/ui/Renderer.cpp`        |
+| High score file                 | `src/storage/HighScoreStore.cpp` |

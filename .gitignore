@@ -3,14 +3,21 @@
 .vscode/
 *.swp
 
-# Build directories
-cmake-build-debug/
-cmake-build-release/
-bin/
-obj/
+# Build output
+cmake-build-*/
+build/
+out/
 
-# Executables and data
+# Compiled files
 *.exe
 *.o
 *.obj
+*.pdb
+*.ilk
+
+# Runtime data
 highscore.txt
+
+# OS files
+Thumbs.db
+.DS_Store
