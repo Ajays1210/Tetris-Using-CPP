@@ -54,6 +54,13 @@ void Game::HandleCommand(Command command) {
         return;
     }
 
+    // While full rows are flashing, ignore everything except Reset.
+    // Otherwise the player could move or drop the next piece during the animation.
+    if (is_clearing_lines_) {
+        if (command == Command::Reset) Reset();
+        return;
+    }
+
     // While paused only Resume and Reset work.
     if (is_paused_) {
         if (command == Command::TogglePause) is_paused_ = false;
