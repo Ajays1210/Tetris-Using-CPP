@@ -8,6 +8,15 @@
 
 namespace tetris {
 
+// True if any solid block of the piece sits on the given board row.
+bool PieceTouchesRow(const Piece& piece, const Position& position, int row) {
+    int shape_row = row - position.y;
+    if (shape_row < 0 || shape_row >= kPieceSize) {
+        return false;
+    }
+    return piece.shape[shape_row].find(kSolidChar) != std::string::npos;
+}
+
 Game::Game() {
     high_score_ = high_score_store_.Load();
     Reset();
@@ -36,7 +45,7 @@ void Game::Reset() {
 }
 
 Position Game::SpawnPosition() const {
-    return Position{kBoardWidth / 2 - 2, 0};  // Top, in the middle.
+    return Position{kBoardWidth / 2 - 2, -1};  // Top, in the middle.
 }
 
 // ---------------------------------------------------------------------------
@@ -179,6 +188,13 @@ bool Game::TryRotate() {
 
 void Game::LockPiece() {
     board_.PlacePiece(current_piece_, current_position_);
+
+    // A block resting in the hidden top row means the stack reached the top.
+    if (PieceTouchesRow(current_piece_, current_position_, 0)) {
+        is_game_over_ = true;
+        UpdateHighScore();
+        return;
+    }
 
     StartLineClear();
     UpdateHighScore();

@@ -14,7 +14,7 @@ void Board::Reset() {
 
     for (int y = 0; y < kBoardHeight; ++y) {
         for (int x = 0; x < kBoardWidth; ++x) {
-            bool is_edge = (y == 0 || y == kBoardHeight - 1 || x == 0 || x == kBoardWidth - 1);
+            bool is_edge = (y == kBoardHeight - 1 || x == 0 || x == kBoardWidth - 1);
             if (is_edge) {
                 cells_[IndexOf(x, y)] = kWallCell;
             }

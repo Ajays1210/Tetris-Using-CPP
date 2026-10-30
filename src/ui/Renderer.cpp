@@ -38,8 +38,6 @@ void DrawOverlayLine(int y, const std::string& text, char border_char) {
 
 // Text for a wall cell, depending on where in the frame it is.
 std::string WallText(int x, int y) {
-    if (y == 0) return "  ";  // The top row stays invisible so pieces can spawn.
-
     bool is_left = (x == 0);
     bool is_right = (x == kBoardWidth - 1);
 
@@ -55,6 +53,8 @@ std::string WallText(int x, int y) {
 
 // Text for the cell at (x, y): falling piece, flashing row, wall, empty or landed block.
 std::string CellText(const Game& game, int x, int y) {
+    // The top row is a hidden spawn row, so it is never drawn.
+    if (y == 0) return "  ";
     const Position& pos = game.CurrentPosition();
 
     // The falling piece. It is hidden on game over so the player can see

@@ -4,8 +4,7 @@ namespace tetris {
 
 // Board size. The board includes the walls, so the playable area is smaller.
 constexpr int kBoardWidth = 12;   // 10 playable columns + left wall + right wall
-constexpr int kBoardHeight = 22;  // 20 playable rows + top row + floor row
-
+constexpr int kBoardHeight = 22;  // hidden top row + 20 visible rows + floor row
 // Values stored in each board cell.
 constexpr int kEmptyCell = 0;
 constexpr int kWallCell = 9;  // Piece cells store the piece id (1 to 7).
